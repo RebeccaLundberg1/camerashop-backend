@@ -3,9 +3,9 @@ spring:
     name: camerashopapi
 
   datasource:
-    url: jdbc:mariadb://<IP-ADDRESS>:3306/camerashopdb?serverTimezone=UTC
-    username: <DB_USER>
-    password: <DB_PASSWORD>
+    url: jdbc:mariadb://${IP_ADDRESS}:3306/camerashopdb?serverTimezone=UTC
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
@@ -19,4 +19,3 @@ spring:
   sql:
     init:
       mode: never
-
