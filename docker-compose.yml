@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./backend
+    container_name: camerashop-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks: [appnet]
+
+  frontend:
+    build: ./frontend
+    container_name: camerashop-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://192.168.1.190:8080
+    ports:
+      - "3000:3000"
+    networks: [appnet]
+
+networks:
+  appnet:
+    driver: bridge
