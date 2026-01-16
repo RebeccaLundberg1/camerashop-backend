@@ -1,12 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProductCard({ product }) {
-  const initialSrc = `/product-images/${encodeURIComponent(product.name)}.jpg`;
+  const safeName = product.name;
+
+  const initialSrc = safeName
+    ? `/product-images/${encodeURIComponent(safeName)}.jpg`
+    : "/product-images/camera.jpg";
 
   const [imgSrc, setImgSrc] = useState(initialSrc);
+
+  useEffect(() => {
+    setImgSrc(initialSrc);
+  }, [initialSrc]);
 
   return (
     <div className="max-w-sm m-8 rounded overflow-hidden shadow-lg bg-white">
@@ -14,11 +22,11 @@ export default function ProductCard({ product }) {
       <div className="relative h-48 w-full">
         <Image
           src={imgSrc}
-          alt="alternative text"
+          alt={safeName ?? 'Product'}
           fill
           className="object-cover"
           onError={() => {
-            setImgSrc("public/product-images/car.jpg");
+            setImgSrc("/product-images/camera.jpg");
           }}
         />
       </div>
@@ -29,7 +37,7 @@ export default function ProductCard({ product }) {
         </div>
 
         <p className="text-gray-700 text-base">
-          Lorem ipsum dolor sit amet.
+          Good day
         </p>
       </div>
     </div>
