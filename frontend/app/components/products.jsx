@@ -1,24 +1,21 @@
-import ProductCard from "./productcard"
+import ProductCard from "./productcard";
 
-export default async function Products(){
-    
-    const response = await fetch("http://localhost:3000/api/products", {
-        cache: "no-store"
-    });
-    console.log(response);
-    
-    const data = await response.json();
-    const products = Array.isArray(data) ? data : (data.content ?? []);
+export default async function Products() {
+  const response = await fetch(`${process.env.BACKEND_API_URL}/products`, {
+    cache: "no-store",
+  });
+  console.log(response);
 
+  const data = await response.json();
+  const products = data;
 
-    console.log(products);
-    
-    return (
-        <div className="flex">
-        { 
-        products.map(product =>(   
-            <ProductCard key={product.id} product={product}/>
-        )) }
-        </div>
-        )
+  console.log(products);
+
+  return (
+    <div className="flex">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
 }

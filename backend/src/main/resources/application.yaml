@@ -3,14 +3,14 @@ spring:
     name: camerashopapi
 
   datasource:
-    url: jdbc:mariadb://192.168.1.177:3306/camerashopdb
-    username: samael
-    password: StrongPass1!
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

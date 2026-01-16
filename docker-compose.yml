@@ -1,0 +1,51 @@
+services:
+  backend:
+    build: ./backend
+    container_name: camerashop-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    networks: [appnet]
+
+  frontend:
+    build: ./frontend
+    container_name: camerashop-frontend
+    environment:
+      BACKEND_API_URL: http://${API_URL}:8080
+    ports:
+      - "3000:3000"
+    networks: [appnet]
+
+  mariadb:
+    image: mariadb:12
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./db_data:/var/lib/mysql
+    ports:
+      - "${DB_PORT}:3306"
+    networks: [appnet]
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:8080"
+    networks: [appnet]
+
+networks:
+  appnet:
+    driver: bridge
